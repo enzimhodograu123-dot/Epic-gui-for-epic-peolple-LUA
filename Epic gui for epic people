@@ -1,0 +1,248 @@
+-- ]] 
+-- Epic Gui for epic people
+--- private gui and for Team Ecplise assembly
+--- Made by Zyphor
+-- ]]
+local Players = game:GetService("Players")
+local Debris = game:GetService("Debris")
+
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = PlayerGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+local Main = Instance.new("Frame")
+Main.Parent = ScreenGui
+Main.BorderSizePixel = 0
+Main.BackgroundColor3 = Color3.fromRGB(185,185,185)
+Main.Size = UDim2.new(0,496,0,416)
+Main.Position = UDim2.new(0,562,0,180)
+
+local Title = Instance.new("TextBox")
+Title.Parent = Main
+Title.BorderSizePixel = 0
+Title.TextSize = 18
+Title.BackgroundTransparency = 1
+Title.Size = UDim2.new(0,496,0,92)
+Title.Text = "Epic GUI for Epic People v1"
+
+local Inside = Instance.new("Frame")
+Inside.Parent = Main
+Inside.BorderSizePixel = 0
+Inside.BackgroundColor3 = Color3.fromRGB(125,125,125)
+Inside.Size = UDim2.new(0,462,0,296)
+Inside.Position = UDim2.new(0,18,0,94)
+
+local SpawnBlocks = Instance.new("TextButton")
+SpawnBlocks.Parent = Main
+SpawnBlocks.BorderSizePixel = 0
+SpawnBlocks.BackgroundColor3 = Color3.fromRGB(255,255,255)
+SpawnBlocks.Size = UDim2.new(0,100,0,68)
+SpawnBlocks.Position = UDim2.new(0,22,0,108)
+SpawnBlocks.Text = "rain blocks"
+
+local spawning = false
+
+SpawnBlocks.MouseButton1Click:Connect(function()
+	spawning = not spawning
+	if spawning then
+		SpawnBlocks.Text = "stop blocks"
+		task.spawn(function()
+			while spawning do
+				task.wait(0.3)
+				local part = Instance.new("Part")
+				part.Size = Vector3.new(6,6,6)
+				part.Position = Vector3.new(
+					math.random(-100,100),
+					math.random(80,120),
+					math.random(-100,100)
+				)
+				part.Anchored = false
+				part.CanCollide = true
+				part.Material = Enum.Material.Neon
+				part.Color = Color3.fromRGB(
+					math.random(0,255),
+					math.random(0,255),
+					math.random(0,255)
+				)
+				part.Parent = workspace
+				Debris:AddItem(part,8)
+			end
+		end)
+	else
+		SpawnBlocks.Text = "spawn blocks"
+	end
+end)
+
+local RainDucks = Instance.new("TextButton")
+RainDucks.Parent = Main
+RainDucks.BorderSizePixel = 0
+RainDucks.BackgroundColor3 = Color3.fromRGB(255,255,255)
+RainDucks.Size = UDim2.new(0,100,0,64)
+RainDucks.Position = UDim2.new(0,242,0,110)
+RainDucks.Text = "Rain ducks"
+
+local raining = false
+
+RainDucks.MouseButton1Click:Connect(function()
+	raining = not raining
+	if raining then
+		RainDucks.Text = "stop ducks"
+		task.spawn(function()
+			while raining do
+				task.wait(0.1)
+				local duck = Instance.new("Part")
+				duck.Size = Vector3.new(40,40,40)
+				duck.Anchored = false
+				duck.CanCollide = true
+				duck.Material = Enum.Material.Rubber
+				duck.CustomPhysicalProperties = PhysicalProperties.new(0.7,0.2,1,1,1)
+
+				local mesh = Instance.new("FileMesh")
+				mesh.Parent = duck
+				mesh.MeshId = "rbxassetid://521754610"
+				mesh.TextureId = "rbxassetid://521754612"
+				mesh.Scale = Vector3.new(40,40,40)
+
+				duck.CFrame = CFrame.new(
+					math.random(-1000,1000),
+					math.random(300,700),
+					math.random(-1000,1000)
+				)
+
+				local quack = Instance.new("Sound")
+				quack.Parent = duck
+				quack.SoundId = "rbxassetid://2101511513"
+				quack.Volume = 5
+				quack:Play()
+
+				duck.Parent = workspace
+				Debris:AddItem(duck,15)
+				Debris:AddItem(quack,2)
+			end
+		end)
+	else
+		RainDucks.Text = "Rain ducks"
+	end
+end)
+
+local SonicAll = Instance.new("TextButton")
+SonicAll.Parent = Main
+SonicAll.BorderSizePixel = 0
+SonicAll.BackgroundColor3 = Color3.fromRGB(255,255,255)
+SonicAll.Size = UDim2.new(0,100,0,70)
+SonicAll.Position = UDim2.new(0,132,0,108)
+SonicAll.Text = "SONIC all"
+
+SonicAll.MouseButton1Click:Connect(function()
+
+local Players = game:GetService("Players")
+
+local function applyEffect(player)
+	local function onCharacter(character)
+		local root = character:WaitForChild("HumanoidRootPart",5)
+		if not root then return end
+
+		for _,v in pairs(character:GetDescendants()) do
+			if v:IsA("BasePart") or v:IsA("Decal") then
+				v.Transparency = 1
+			end
+		end
+
+		local smoke = Instance.new("Smoke")
+		smoke.Parent = root
+		smoke.Color = Color3.new(0.9,0.9,0.9)
+		smoke.Opacity = 0.3
+		smoke.Size = 0.5
+		smoke.RiseVelocity = 3
+		smoke.Enabled = true
+
+		local billboard = Instance.new("BillboardGui")
+		billboard.Parent = root
+		billboard.Size = UDim2.new(8,0,15,0)
+		billboard.StudsOffset = Vector3.new(0,3,0)
+		billboard.AlwaysOnTop = true
+
+		local image = Instance.new("ImageLabel")
+		image.Parent = billboard
+		image.Size = UDim2.new(1,0,1,0)
+		image.BackgroundTransparency = 1
+		image.ScaleType = Enum.ScaleType.Stretch
+
+		local ids = {138571060500318}
+
+		task.spawn(function()
+			while image.Parent do
+				for _,id in ipairs(ids) do
+					image.Image = "rbxassetid://"..id
+					task.wait(0.04)
+				end
+			end
+		end)
+	end
+
+	if player.Character then
+		onCharacter(player.Character)
+	end
+
+	player.CharacterAdded:Connect(onCharacter)
+end
+
+for _,player in pairs(Players:GetPlayers()) do
+	applyEffect(player)
+end
+
+Players.PlayerAdded:Connect(applyEffect)
+
+end)
+
+local FireAll = Instance.new("TextButton")
+FireAll.Parent = Main
+FireAll.BorderSizePixel = 0
+FireAll.BackgroundColor3 = Color3.fromRGB(255,255,255)
+FireAll.Size = UDim2.new(0,100,0,72)
+FireAll.Position = UDim2.new(0,356,0,108)
+FireAll.Text = "fire all"
+
+local fireEnabled = false
+local fires = {}
+
+FireAll.MouseButton1Click:Connect(function()
+	fireEnabled = not fireEnabled
+
+	for _,plr in pairs(Players:GetPlayers()) do
+		if plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+			if fireEnabled then
+				if not fires[plr] then
+					local fire = Instance.new("Fire")
+					fire.Size = 10
+					fire.Heat = 25
+					fire.Color = Color3.fromRGB(255,85,0)
+					fire.SecondaryColor = Color3.fromRGB(255,170,0)
+					fire.Parent = plr.Character.HumanoidRootPart
+					fires[plr] = fire
+				end
+			else
+				if fires[plr] then
+					fires[plr]:Destroy()
+					fires[plr] = nil
+				end
+			end
+		end
+	end
+end)
+
+local Credit = Instance.new("TextLabel")
+Credit.Parent = Main
+Credit.BorderSizePixel = 0
+Credit.TextSize = 24
+Credit.BackgroundColor3 = Color3.fromRGB(191,191,191)
+Credit.Size = UDim2.new(0,408,0,124)
+Credit.Position = UDim2.new(0,42,0,218)
+Credit.Text = "MADE BY ZYPHOR"
+
+local Drag = Instance.new("UIDragDetector")
+Drag.Parent = Main
+print("E.G.F.E.P on top")
